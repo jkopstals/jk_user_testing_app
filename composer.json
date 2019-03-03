@@ -18,10 +18,10 @@
     "require": {
     },
     "scripts": {
-        "serve": "php -S localhost:8080 -t public/",
-        "tests": "phpunit --bootstrap app.php tests",
-        "testsDox": "phpunit --bootstrap app.php --testdox tests",
-        "test": "phpunit --bootstrap app.php",
+        "serve": "php -S localhost:8080 -t public server.php",
+        "tests": ".\\vendor\\bin\\phpunit --bootstrap .\\tests\\bootstrap.php tests",
+        "testsDox": ".\\vendor\\bin\\phpunit --bootstrap .\\tests\\bootstrap.php --testdox tests",
+        "test": ".\\vendor\\bin\\phpunit --bootstrap .\\tests\\bootstrap.php",
         "testsVerbose": "@tests --vvv"
     },
     "require-dev": {

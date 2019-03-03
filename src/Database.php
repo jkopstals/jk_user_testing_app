@@ -64,16 +64,20 @@ class Database
      */
     public function createSchema()
     {
+        $migrations_done = [];
         $migrations = require( __DIR__ . '.\..\database\migrations.php');
 
         foreach ($migrations as $migration_id => $migration) {
-            if (isset($migration['up'])) {
-                $this->query($migration['up']);
-                print("$migration_id up done\r\n");
-            } else {
+            if (!isset($migration['up'])) {
                 throw new \Exception($migration_id. ' missing up script');
             }
+            
+            $this->query($migration['up']);
+            $migrations_done[] = $migration_id;
         }
+
+        $all_migrations_done = empty(array_diff(array_keys($migrations), $migrations_done)); 
+        return $all_migrations_done;
     }
 
     /**
@@ -81,16 +85,20 @@ class Database
      */
     public function dropSchema()
     {
+        $migrations_done = [];
         $migrations = require( __DIR__ . '.\..\database\migrations.php');
 
         $migrations_reverse = array_reverse($migrations);
         foreach ($migrations_reverse as $migration_id => $migration) {
-            if (isset($migration['down'])) {
-                $this->query($migration['down']);
-                print("$migration_id down done\r\n");
-            } else {
+            if (!isset($migration['down'])) {
                 throw new \Exception($migration_id. ' missing down script');
             }
+
+            $this->query($migration['down']);
+            $migrations_done[] = $migration_id;
         }
+
+        $all_migrations_done = empty(array_diff(array_keys($migrations), $migrations_done)); 
+        return $all_migrations_done;
     }
 }
