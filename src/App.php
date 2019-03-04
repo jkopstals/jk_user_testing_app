@@ -76,7 +76,7 @@ class App
         $this->router->map('POST','/', '\App\Controllers\TestController::show');
 
         $this->router->map('POST', '/api/answers/', '\App\Controllers\ApiAnswerController::store');
-        $this->router->map('POST', '/api/answers', '\App\Controllers\ApiAnswerController::store');
+        $this->router->map('POST', '/index.php?url=api/answers', '\App\Controllers\ApiAnswerController::store');
     }
 
     public function run()

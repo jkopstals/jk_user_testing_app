@@ -9,7 +9,7 @@ $(document).ready(function() {
         
         if (typeof(option_uuid) != "undefined" && option_uuid !== null) {
             $.ajax({
-                url: "/api/answers/",
+                url: "/index.php?url=api/answers",
                 method: "POST",
                 data: $('#option_form').serialize(),
                 beforeSend:function() {
