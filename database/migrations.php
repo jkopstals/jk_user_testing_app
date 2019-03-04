@@ -18,7 +18,7 @@ $migrations['tests'] = [
         `deleted_at` DATETIME NULL,
         `sequence` INT NOT NULL DEFAULT 0,
         PRIMARY KEY (`id`),
-        UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC) VISIBLE);
+        UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC));
       ",
     'down' => "DROP TABLE IF EXISTS `tests`;"
 ];
@@ -33,13 +33,7 @@ $migrations['respondents'] = [
         `completed_at` DATETIME NULL,
         `deleted_at` DATETIME NULL,
         PRIMARY KEY (`id`),
-        UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC) VISIBLE,
-        INDEX `resp_test_id_fk_idx` (`test_id` ASC) VISIBLE,
-        CONSTRAINT `resp_test_id_fk`
-          FOREIGN KEY (`test_id`)
-          REFERENCES `tests` (`id`)
-          ON DELETE CASCADE
-          ON UPDATE CASCADE);
+        UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC));
       ", 
     'down' => "DROP TABLE IF EXISTS `respondents`;"
 ];
@@ -54,13 +48,8 @@ $migrations['questions'] = [
         `deleted_at` DATETIME NULL,
         `sequence` INT NOT NULL DEFAULT 0,
         PRIMARY KEY (`id`),
-        UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC) VISIBLE,
-        INDEX `q_test_id_fk_idx` (`test_id` ASC) VISIBLE,
-        CONSTRAINT `q_test_id_fk`
-          FOREIGN KEY (`test_id`)
-          REFERENCES `tests` (`id`)
-          ON DELETE CASCADE
-          ON UPDATE CASCADE);      
+        UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC),
+        INDEX `q_test_id_idx` (`test_id` ASC));      
       ",
     'down' => "DROP TABLE IF EXISTS `questions`;"
 ];
@@ -77,12 +66,8 @@ $migrations['options'] = [
         `sequence` INT NOT NULL DEFAULT 0,
         `is_correct_answer` TINYINT NOT NULL DEFAULT 0,
         PRIMARY KEY (`id`),
-        INDEX `opt_question_id_fk_idx` (`question_id` ASC) VISIBLE,
-        CONSTRAINT `opt_question_id_fk`
-        FOREIGN KEY (`question_id`)
-        REFERENCES `questions` (`id`)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE);
+        UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC),
+        INDEX `opt_question_id_idx` (`question_id` ASC));
     ",
     'down' => "DROP TABLE IF EXISTS `options`;"
 ];
@@ -96,24 +81,8 @@ $migrations['answers'] = [
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` DATETIME NULL,
   PRIMARY KEY (`id`),
-  INDEX `answ_respondent_id_fk_idx` (`respondent_id` ASC) VISIBLE,
-  INDEX `answ_question_id_fk_idx` (`question_id` ASC) VISIBLE,
-  INDEX `answ_option_id_fk_idx` (`option_id` ASC) VISIBLE,
-  CONSTRAINT `answ_respondent_id_fk`
-    FOREIGN KEY (`respondent_id`)
-    REFERENCES `respondents` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `answ_question_id_fk`
-    FOREIGN KEY (`question_id`)
-    REFERENCES `questions` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `answ_option_id_fk`
-    FOREIGN KEY (`option_id`)
-    REFERENCES `options` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+  INDEX `answ_respondent_id_idx` (`respondent_id` ASC),
+  UNIQUE INDEX `resp_id_quest_id_uniq` (`respondent_id` ASC, `question_id` ASC));
     ",
     'down' =>  "DROP TABLE IF EXISTS `answers`;"
 ];

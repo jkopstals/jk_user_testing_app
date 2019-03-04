@@ -1,6 +1,10 @@
 <?php
 namespace App;
 
+/**
+ * A config reader class, that exposes config options
+ * Can be used with a different basePath for unittests or different environments
+ */
 class AppConfig
 {
     private $config = [];
@@ -16,6 +20,9 @@ class AppConfig
         $this->config = require $basePath.'\config.php';
     }
 
+    /**
+     * Config option getter
+     */
     public function get($key)
     {
         if (array_key_exists($key, $this->config)) {

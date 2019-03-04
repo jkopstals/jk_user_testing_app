@@ -16,6 +16,7 @@ class SetUpTestCase extends TestCase
     {
         $db = App::app()->db();
         $db->createSchema();
+        $db->seed();
 
         parent::setUp();
     }

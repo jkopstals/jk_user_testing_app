@@ -1,6 +1,6 @@
 <?php
 /**
- * this file will contain bootstrapping of the application for both website, console and testing
+ * this file will contains bootstrapping for console
  */
 
 //as the projects aim is not to use any external libraries, 
@@ -14,4 +14,3 @@ $app = new App\App(__DIR__, $config);
 if (php_sapi_name() == "cli") {
     \Psy\Shell::debug(get_defined_vars());
 }
-return null;

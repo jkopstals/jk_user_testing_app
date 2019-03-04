@@ -12,13 +12,16 @@
         <link href="https://fonts.google.com/css?family=Open+Sans?selection.family=Open+Sans:400,700" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="/css/normalize.css">
         <link rel="stylesheet" type="text/css" href="/css/app.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="/js/app.js"></script>
+        
     </head>
 
     <body>
         <div class="header">
-            <h1><?= $title ?></h1>
+            <h1 id="title"><?= $title ?></h1>
         </div>
-        <div class="content"><?= $content ?></div>
-        <div class="footer"><?= $footer ?></div>
+        <div class="container"><?= $content ?></div>
+        <div class="footer"></div>
     </body>
 </html>

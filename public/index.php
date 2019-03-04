@@ -8,7 +8,16 @@ $parent_dir = dirname(__DIR__);
 //composer is used only for development tools and for class autoloading purposes
 require $parent_dir . '/vendor/autoload.php'; 
 
-$config = new App\AppConfig($parent_dir);
+try {
+    $config = new App\AppConfig($parent_dir);
 
-$app = new App\App($parent_dir, $config);
+    $app = new App\App($parent_dir, $config);
+
+    $app->init();
+
+    $app->run();
+} catch (\Exception $e) {
+    http_response_code(500);
+    echo '<html><head><title>Error</title></head><body><h1>'.$e->getMessage().'</h1></body></html>';
+}
 

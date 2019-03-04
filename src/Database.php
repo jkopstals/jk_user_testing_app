@@ -60,7 +60,7 @@ class Database
 
     /**
      * Build database schema with primitive migration logic
-     * Run in terminal during deployment or for testing
+     * Run in terminal during deployment or to set up testing databases
      */
     public function createSchema()
     {
@@ -81,7 +81,7 @@ class Database
     }
 
     /**
-     * Drop database schema
+     * Drop database schema - for testing, or for temporary environments
      */
     public function dropSchema()
     {
@@ -100,5 +100,57 @@ class Database
 
         $all_migrations_done = empty(array_diff(array_keys($migrations), $migrations_done)); 
         return $all_migrations_done;
+    }
+
+    /**
+     * a way to clean seeded or testing data
+     */
+    public function cleanSchema()
+    {
+        $tables = ['answers', 'respondents', 'tests', 'questions', 'options'];
+        foreach ($tables as $table) {
+            $this->query("TRUNCATE TABLE $table;");
+        }
+    }
+
+    /**
+     * Simple seed function, that reads an array of data from a seeding file
+     */
+    public function seed()
+    {
+        $seed = require( __DIR__ . '.\..\database\seeding.php');
+
+        foreach ($seed as $table => $records) {
+            $this->seedRecords($table, $records);
+        }
+    }
+
+    /**
+     * helper function, that is being called recursively to seed related objects
+     */
+    private function seedRecords($table, $records, $parent_id = null) {
+        foreach ($records as $row) {
+            if ($table == 'tests') {
+                $testRepo = new \App\Repositories\TestRepository($this);
+                $test = new \App\Models\Test($row);
+                $test = $testRepo->save($test);
+                if (isset($row['questions'])) {
+                    $this->seedRecords('questions', $row['questions'], $test->id);
+                }
+            }
+            if ($table == 'questions') {
+                $questionRepo = new \App\Repositories\QuestionRepository($this);
+                $question = new \App\Models\Question(array_merge($row,['test_id' => $parent_id]));
+                $question = $questionRepo->save($question);
+                if (isset($row['options'])) {
+                    $this->seedRecords('options', $row['options'], $question->id);
+                }
+            }
+            if ($table == 'options') {
+                $optionRepo = new \App\Repositories\OptionRepository($this);
+                $option = new \App\Models\Option(array_merge($row,['question_id' => $parent_id]));
+                $optionRepo->save($option);
+            }
+        }
     }
 }
