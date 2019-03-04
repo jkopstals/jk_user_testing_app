@@ -17,7 +17,7 @@ class AppConfig
          * thus not exposing potentially sensitive passwords/keys
          */
 
-        $this->config = require $basePath.'\config.php';
+        $this->config = require $basePath.'/config.php';
     }
 
     /**

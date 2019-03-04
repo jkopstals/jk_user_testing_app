@@ -65,7 +65,7 @@ class Database
     public function createSchema()
     {
         $migrations_done = [];
-        $migrations = require( __DIR__ . '.\..\database\migrations.php');
+        $migrations = require( dirname(__DIR__) . '/database/migrations.php');
 
         foreach ($migrations as $migration_id => $migration) {
             if (!isset($migration['up'])) {
@@ -86,7 +86,7 @@ class Database
     public function dropSchema()
     {
         $migrations_done = [];
-        $migrations = require( __DIR__ . '.\..\database\migrations.php');
+        $migrations = require( dirname(__DIR__) . '/database/migrations.php');
 
         $migrations_reverse = array_reverse($migrations);
         foreach ($migrations_reverse as $migration_id => $migration) {
@@ -118,7 +118,7 @@ class Database
      */
     public function seed()
     {
-        $seed = require( __DIR__ . '.\..\database\seeding.php');
+        $seed = require( dirname(__DIR__) . '/database/seeding.php');
 
         foreach ($seed as $table => $records) {
             $this->seedRecords($table, $records);

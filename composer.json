@@ -19,10 +19,11 @@
     },
     "scripts": {
         "serve": "php -S localhost:8080 -t public server.php",
-        "tests": ".\\vendor\\bin\\phpunit --bootstrap .\\tests\\bootstrap.php tests",
-        "testsDox": ".\\vendor\\bin\\phpunit --bootstrap .\\tests\\bootstrap.php --testdox tests",
-        "test": ".\\vendor\\bin\\phpunit --bootstrap .\\tests\\bootstrap.php",
-        "testsVerbose": "@tests --vvv"
+        "tests": "./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php tests",
+        "testsDox": "./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php --testdox tests",
+        "test": "./vendor/bin/phpunit --bootstrap ./tests/bootstrap.php",
+        "testsVerbose": "@tests --vvv",
+	"db-init": "php db_init.php"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",

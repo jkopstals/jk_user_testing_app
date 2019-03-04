@@ -58,7 +58,7 @@ class App
         /**
          * Simplistic templating class, can render php files with scoped variables
          */
-        $this->view = new View($this->path.'\\templates\\');
+        $this->view = new View($this->path.'/templates/');
 
         /**
          * Router allows registering http methods and uri's to dynamically callable constructor class methods 
@@ -76,6 +76,7 @@ class App
         $this->router->map('POST','/', '\App\Controllers\TestController::show');
 
         $this->router->map('POST', '/api/answers/', '\App\Controllers\ApiAnswerController::store');
+        $this->router->map('POST', '/api/answers', '\App\Controllers\ApiAnswerController::store');
     }
 
     public function run()
